@@ -105,7 +105,7 @@ resource "azurerm_network_security_group" "fr" {
         source_port_range               = "*"
         source_address_prefix           = "*"
         destination_port_range          = "65200-65535"
-        destination_address_prefix      = var.FrSubnetIPaddress
+        destination_address_prefix      = "*"
     }
     security_rule {
         priority                        = 110
