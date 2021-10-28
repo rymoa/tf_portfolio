@@ -7,14 +7,14 @@ resource "azurerm_sql_server" "default" {
     administrator_login                 = "${lookup(var.Secret, "SQLAdmin")}"
     administrator_login_password        = "${lookup(var.Secret, "SQLAdminPass")}"
 }
-#Server Administrators
-# resource "azurerm_sql_active_directory_administrator" "dafault" {
-#     server_name         = "${azurerm_sql_server.default.name}"
-#     resource_group_name = "${azurerm_resource_group.default.name}"
-#     tenant_id           = "${lookup(var.Secret, "tenant_id")}"
-#     login               = "${lookup(var.SQL, "AdminName_AAD")}"
-#     object_id           = "${lookup(var.SQL, "ObjectId")}"
-# }
+# Server Administrators
+resource "azurerm_sql_active_directory_administrator" "dafault" {
+    server_name         = "${azurerm_sql_server.default.name}"
+    resource_group_name = "${azurerm_resource_group.default.name}"
+    tenant_id           = "${lookup(var.Secret, "tenant_id")}"
+    login               = "${lookup(var.SQL, "AdminName_AAD")}"
+    object_id           = "${lookup(var.SQL, "ObjectId")}"
+}
 #Server Firewall Rules
 resource "azurerm_sql_firewall_rule" "default" {
     name                = "AllowAllWindowsAzureIps"
