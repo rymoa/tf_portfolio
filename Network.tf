@@ -27,6 +27,10 @@ resource "azurerm_subnet" "fr" {
     virtual_network_name        = "${azurerm_virtual_network.default.name}"
     network_security_group_id   = "${azurerm_network_security_group.fr.id}"
     route_table_id              = "${azurerm_route_table.fr.id}"
+    depends_on = [
+        azurerm_network_security_group.fr
+        azurerm_route_table.fr
+    ]
 }
 resource "azurerm_subnet" "aks" {
     name                        = "${azurerm_virtual_network.default.name}-SNAKS01"
@@ -36,6 +40,11 @@ resource "azurerm_subnet" "aks" {
     network_security_group_id   = "${azurerm_network_security_group.aks.id}"
     route_table_id              = "${azurerm_route_table.aks.id}"
     service_endpoints           = ["Microsoft.Sql"]
+    depends_on = [
+        azurerm_network_security_group.aks
+        azurerm_route_table.aks
+    ]
+
 }
 
 # 02 RouteTables
