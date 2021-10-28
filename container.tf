@@ -64,5 +64,6 @@ resource "azurerm_role_assignment" "aks_managedid_container_registry" {
 }
 resource "azurerm_user_assigned_identity" "aks" {
     resource_group_name = "${azurerm_resource_group.default.name}"
+    location            = "${azurerm_resource_group.default.location}"
     name                = "${lookup(var.Param, "SysName_L")}-UAMI01"
 }
