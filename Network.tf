@@ -22,13 +22,13 @@ resource "azurerm_virtual_network" "default" {
 # Subnet
 resource "azurerm_subnet" "fr" {
     name                        = "${azurerm_virtual_network.default.name}-SNFR01"
-    address_prefix              = "${lookup(var.Param, "FrSubnetIPaddress")}"
+    address_prefixes            = "${lookup(var.Param, "FrSubnetIPaddress")}"
     resource_group_name         = "${azurerm_resource_group.default.name}"
     virtual_network_name        = "${azurerm_virtual_network.default.name}"
 }
 resource "azurerm_subnet" "aks" {
     name                        = "${azurerm_virtual_network.default.name}-SNAKS01"
-    address_prefix              = "${lookup(var.Param, "AksSubnetIPaddress")}"
+    address_prefixes            = "${lookup(var.Param, "AksSubnetIPaddress")}"
     resource_group_name         = "${azurerm_resource_group.default.name}"
     virtual_network_name        = "${azurerm_virtual_network.default.name}"
     service_endpoints           = ["Microsoft.Sql"]
