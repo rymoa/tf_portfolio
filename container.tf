@@ -27,7 +27,7 @@ resource "azurerm_kubernetes_cluster" "default" {
         vnet_subnet_id  = "${azurerm_subnet.aks.id}"
     }
     identity {
-        type = "SystemAssigned "
+        type = "SystemAssigned"
     }
     network_profile {
         network_plugin      ="azure"
