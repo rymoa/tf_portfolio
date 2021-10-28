@@ -1,11 +1,11 @@
 variable SysName_L {
   type        = string
-  default     = "RYMOA-PORTFOLIO"
+  default     = "RymoaPortfolio"
   description = "SystemNameLarge"
 }
 variable SysName_S {
   type        = string
-  default     = "rymoa-portfolio"
+  default     = "rymoaportfolio"
   description = "SystemNameSmall"
 }
 variable Location {
