@@ -278,7 +278,6 @@ resource "azurerm_sql_database" "default" {
     location                            = azurerm_resource_group.default.location
     server_name                         = azurerm_sql_server.default.name
     edition                             = "Basic"
-    max_size_bytes                      = "268435456000"
 }
 
 #######################################################

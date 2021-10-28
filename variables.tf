@@ -40,7 +40,7 @@ variable DnsServiceIp {
 }
 variable ServiceCidr {
   type        = string
-  default     = "10.0.0.0/16"
+  default     = "10.1.0.0/24"
   description = "AksServiceCidr"
 }
 variable DockerBridgeCidr {
