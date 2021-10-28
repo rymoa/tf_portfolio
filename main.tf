@@ -13,6 +13,6 @@ terraform {
 #Resource Group
 resource "azurerm_resource_group" "default" {
     name        = "${var.Param.SysName_L}-RG01"
-    location    = "${var.Param.Location}"
+    location    = var.Param.Location
     tags        = {}
 }
