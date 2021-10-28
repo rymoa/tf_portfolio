@@ -104,7 +104,7 @@ resource "azurerm_network_security_group" "fr" {
         protocol                        = "*"
         source_port_range               = "*"
         source_address_prefix           = "*"
-        destination_port_range          = "65503-65534"
+        destination_port_range          = "65200-65535"
         destination_address_prefix      = var.FrSubnetIPaddress
     }
     security_rule {
