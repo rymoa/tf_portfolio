@@ -11,7 +11,7 @@ resource "azurerm_sql_server" "default" {
 resource "azurerm_sql_active_directory_administrator" "dafault" {
     server_name         = azurerm_sql_server.default.name
     resource_group_name = azurerm_resource_group.default.name
-    login               = var.AdminName_AAD
+    login               = var.AADAdminName
     tenant_id           = var.TenantId
     object_id           = var.ObjectId
 }
@@ -36,7 +36,7 @@ resource "azurerm_mssql_server_security_alert_policy" "default" {
     resource_group_name = azurerm_resource_group.default.name
     state               = "Enabled"
     retention_days      = 0
-    email_addresses     = var.Sql_Security_Alert
+    email_addresses     = [var.Sql_Security_Alert]
 }
 
 #Azure SQL Database
