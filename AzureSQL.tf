@@ -12,6 +12,7 @@ resource "azurerm_sql_active_directory_administrator" "dafault" {
     server_name         = "${azurerm_sql_server.default.name}"
     resource_group_name = "${azurerm_resource_group.default.name}"
     login               = "${var.SQL.AdminName_AAD}"
+    tenant_id           = "${var.SQL.TenantId}"
     object_id           = "${var.SQL.ObjectId}"
 }
 #Server Firewall Rules
