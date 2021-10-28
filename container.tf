@@ -27,7 +27,8 @@ resource "azurerm_kubernetes_cluster" "default" {
         vnet_subnet_id  = "${azurerm_subnet.aks.id}"
     }
     identity {
-        type = "SystemAssigned"
+        type                        = "UserAssigned"
+        user_assigned_identity_id   = "${azurerm_user_assigned_identity.aks.id}"
     }
     network_profile {
         network_plugin      ="azure"
@@ -59,5 +60,9 @@ resource "azurerm_kubernetes_cluster_node_pool" "default" {
 resource "azurerm_role_assignment" "aks_managedid_container_registry" {
   scope                = "${azurerm_container_registry.default.id}"
   role_definition_name = "AcrPull"
-  principal_id         = "${azurerm_kubernetes_cluster.default.Object_id}"
+  principal_id         = "${azurerm_kubernetes_cluster.default.kubelet_identity[0].object_id}"
+}
+resource "azurerm_user_assigned_identity" "aks" {
+    resource_group_name = "${azurerm_resource_group.default.name}"
+    name                = "${lookup(var.Param, "SysName_L")}-UAMI01"
 }
