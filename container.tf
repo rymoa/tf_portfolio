@@ -59,5 +59,5 @@ resource "azurerm_kubernetes_cluster_node_pool" "default" {
 resource "azurerm_role_assignment" "aks_managedid_container_registry" {
   scope                = "${azurerm_container_registry.default.id}"
   role_definition_name = "AcrPull"
-  principal_id         = "${azurerm_kubernetes_cluster.default.kubelet_identity[0].object_id}"
+  principal_id         = "${azurerm_kubernetes_cluster.default.Object_id}"
 }
