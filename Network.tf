@@ -13,8 +13,8 @@
 
 # Vnet
 resource "azurerm_virtual_network" "default" {
-    name                = "${lookup(var.Param, "SysName_L")}-VNET01"
-    address_space       = ["${lookup(var.Param, "VNET_IPaddress")}"]
+    name                = "${var.Param[SysName_L]}-VNET01"
+    address_space       = ["${var.Param[VNET_IPaddress]}"]
     resource_group_name = "${azurerm_resource_group.default.name}"
     location            = "${azurerm_resource_group.default.location}"
 }
@@ -22,13 +22,13 @@ resource "azurerm_virtual_network" "default" {
 # Subnet
 resource "azurerm_subnet" "fr" {
     name                        = "${azurerm_virtual_network.default.name}-SNFR01"
-    address_prefixes            = "${lookup(var.Param, "FrSubnetIPaddress")}"
+    address_prefixes            = "${var.Param[FrSubnetIPaddress]}"
     resource_group_name         = "${azurerm_resource_group.default.name}"
     virtual_network_name        = "${azurerm_virtual_network.default.name}"
 }
 resource "azurerm_subnet" "aks" {
     name                        = "${azurerm_virtual_network.default.name}-SNAKS01"
-    address_prefixes            = "${lookup(var.Param, "AksSubnetIPaddress")}"
+    address_prefixes            = "${var.Param[AksSubnetIPaddress]}"
     resource_group_name         = "${azurerm_resource_group.default.name}"
     virtual_network_name        = "${azurerm_virtual_network.default.name}"
     service_endpoints           = ["Microsoft.Sql"]
@@ -89,7 +89,7 @@ resource "azurerm_network_security_group" "fr" {
         source_port_range               = "*"
         source_address_prefix           = "*"
         destination_port_range          = "65503-65534"
-        destination_address_prefix      = "${lookup(var.Param, "frSubnetIPaddress")}"
+        destination_address_prefix      = "${var.Param[FrSubnetIPaddress]}"
     }
     security_rule {
         priority                        = 110
@@ -101,7 +101,7 @@ resource "azurerm_network_security_group" "fr" {
         source_port_range               = "*"
         source_address_prefix           = "AzureLoadBalancer"
         destination_port_range          = "*"
-        destination_address_prefix      = "${lookup(var.Param, "frSubnetIPaddress")}"
+        destination_address_prefix      = "${var.Param[FrSubnetIPaddress]}"
     }
     security_rule {
         priority                        = 120
@@ -111,9 +111,9 @@ resource "azurerm_network_security_group" "fr" {
         access                          = "Allow"
         protocol                        = "*"
         source_port_range               = "*"
-        source_address_prefix           = "${lookup(var.Param, "frSubnetIPaddress")}"
+        source_address_prefix           = "${var.Param[FrSubnetIPaddress]}"
         destination_port_range          = "*"
-        destination_address_prefix      = "${lookup(var.Param, "frSubnetIPaddress")}"
+        destination_address_prefix      = "${var.Param[FrSubnetIPaddress]}"
     }
     security_rule {
         priority                        = 130
@@ -154,9 +154,9 @@ resource "azurerm_network_security_group" "aks" {
         access                          = "Allow"
         protocol                        = "*"
         source_port_range               = "*"
-        source_address_prefix           = "${lookup(var.Param, "frSubnetIPaddress")}"
+        source_address_prefix           = "${var.Param[FrSubnetIPaddress]}"
         destination_port_range          = "*"
-        destination_address_prefix      = "${lookup(var.Param, "aksSubnetIPaddress")}"
+        destination_address_prefix      = "${var.Param[AksSubnetIPaddress]}"
     }
     security_rule {
         priority                        = 110
@@ -168,7 +168,7 @@ resource "azurerm_network_security_group" "aks" {
         source_port_range               = "*"
         source_address_prefix           = "AzureLoadBalancer"
         destination_port_range          = "*"
-        destination_address_prefix      = "${lookup(var.Param, "aksSubnetIPaddress")}"
+        destination_address_prefix      = "${var.Param[AksSubnetIPaddress]}"
     }
     security_rule {
         priority                        = 120
@@ -178,9 +178,9 @@ resource "azurerm_network_security_group" "aks" {
         access                          = "Allow"
         protocol                        = "*"
         source_port_range               = "*"
-        source_address_prefix           = "${lookup(var.Param, "aksSubnetIPaddress")}"
+        source_address_prefix           = "${var.Param[AksSubnetIPaddress]}"
         destination_port_range          = "*"
-        destination_address_prefix      = "${lookup(var.Param, "aksSubnetIPaddress")}"
+        destination_address_prefix      = "${var.Param[AksSubnetIPaddress]}"
     }
     security_rule {
         priority                        = 4096

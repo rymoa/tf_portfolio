@@ -1,19 +1,18 @@
 #Azure SQL Server
 resource "azurerm_sql_server" "default" {
-    name                                = "${lookup(var.Param, "SysName_S")}-sqs01"
+    name                                = "${var.Param[SysName_S]}-sqs01"
     resource_group_name                 = "${azurerm_resource_group.default.name}"
     location                            = "${azurerm_resource_group.default.location}"
     version                             = "12.0"
-    administrator_login                 = "${lookup(var.Secret, "SQLAdmin")}"
-    administrator_login_password        = "${lookup(var.Secret, "SQLAdminPass")}"
+    administrator_login                 = "${var.Secret[SQLAdmin]}"
+    administrator_login_password        = "${var.Secret[SQLAdminPass]}"
 }
 # Server Administrators
 resource "azurerm_sql_active_directory_administrator" "dafault" {
     server_name         = "${azurerm_sql_server.default.name}"
     resource_group_name = "${azurerm_resource_group.default.name}"
-    tenant_id           = "${lookup(var.Secret, "tenant_id")}"
-    login               = "${lookup(var.SQL, "AdminName_AAD")}"
-    object_id           = "${lookup(var.SQL, "ObjectId")}"
+    login               = "${var.SQL[AdminName_AAD]}"
+    object_id           = "${var.SQL[ObjectId]}"
 }
 #Server Firewall Rules
 resource "azurerm_sql_firewall_rule" "default" {
@@ -25,7 +24,7 @@ resource "azurerm_sql_firewall_rule" "default" {
 }
 #Server Virtual Network Rules
 resource "azurerm_sql_virtual_network_rule" "default" {
-    name                = "${lookup(var.Param, "SysName_S")}-sqs01-VNRule01"
+    name                = "${var.Param[SysName_S]}-sqs01-VNRule01"
     server_name         = "${azurerm_sql_server.default.name}"
     resource_group_name = "${azurerm_resource_group.default.name}"
     subnet_id           = "${azurerm_subnet.aks.id}"
@@ -36,12 +35,12 @@ resource "azurerm_mssql_server_security_alert_policy" "default" {
     resource_group_name = "${azurerm_resource_group.default.name}"
     state               = "Enabled"
     retention_days      = 0
-    email_addresses     = "${lookup(var.Alert, "Sql_Security_Alert")}"
+    email_addresses     = "${var.Alert[Sql_Security_Alert]}"
 }
 
 #Azure SQL Database
 resource "azurerm_sql_database" "default" {
-    name                                = "${lookup(var.Param, "SysName_L")}-SQD01"
+    name                                = "${var.Param[SysName_L]}-SQD01"
     resource_group_name                 = "${azurerm_resource_group.default.name}"
     location                            = "${azurerm_resource_group.default.location}"
     server_name                         = "${azurerm_sql_server.default.name}"
