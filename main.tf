@@ -309,7 +309,6 @@ resource "azurerm_kubernetes_cluster" "default" {
     }
     identity {
         type                        = "UserAssigned"
-        user_assigned_identity_id   = azurerm_user_assigned_identity.aks.id
     }
     network_profile {
         network_plugin      ="azure"
@@ -342,9 +341,4 @@ resource "azurerm_role_assignment" "aks_managedid_container_registry" {
   scope                = azurerm_container_registry.default.id
   role_definition_name = "AcrPull"
   principal_id         = azurerm_kubernetes_cluster.default.kubelet_identity[0].object_id
-}
-resource "azurerm_user_assigned_identity" "aks" {
-    resource_group_name = azurerm_resource_group.default.name
-    location            = azurerm_resource_group.default.location
-    name                = "${var.SysName_L}-UAMI01"
 }
