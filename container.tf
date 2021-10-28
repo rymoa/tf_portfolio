@@ -7,7 +7,7 @@
 
 # 01 Azure Container Registory
 resource "azurerm_container_registry" "default" {
-    name                                = "${var.Param.SysName_L}ACR01"
+    name                                = "${var.Param["SysName_L"]}ACR01"
     resource_group_name                 = azurerm_resource_group.default.name
     location                            = azurerm_resource_group.default.location
     sku                                 = "Standard"
@@ -15,10 +15,10 @@ resource "azurerm_container_registry" "default" {
 }
 # 02 Azure Kubernetes Service
 resource "azurerm_kubernetes_cluster" "default" {
-    name                                = "${var.Param.SysName_L}-AKS01"
+    name                                = "${var.Param["SysName_L"]}-AKS01"
     resource_group_name                 = azurerm_resource_group.default.name
     location                            = azurerm_resource_group.default.location
-    dns_prefix                          = "${var.Param.SysName_L}-AKS01-dns"
+    dns_prefix                          = "${var.Param["SysName_L"]}-AKS01-dns"
     default_node_pool {
         name            = "agentpool"
         node_count      = 1
@@ -31,14 +31,14 @@ resource "azurerm_kubernetes_cluster" "default" {
     }
     network_profile {
         network_plugin      ="azure"
-        dns_service_ip      = var.AKS.DnsServiceIp
-        service_cidr        = var.AKS.serviceCidr
-        docker_bridge_cidr  = var.AKS.dockerBridgeCidr
+        dns_service_ip      = var.AKS["DnsServiceIp"]
+        service_cidr        = var.AKS["serviceCidr"]
+        docker_bridge_cidr  = var.AKS["dockerBridgeCidr"]
     }
     addon_profile {
         ingress_application_gateway {
         enabled         = true
-        gateway_name    = "${var.Param.SysName_L}-AKS01-AGIC01"
+        gateway_name    = "${var.Param["SysName_L"]}-AKS01-AGIC01"
         subnet_id       = azurerm_subnet.fr.id
         }
     }
@@ -64,5 +64,5 @@ resource "azurerm_role_assignment" "aks_managedid_container_registry" {
 resource "azurerm_user_assigned_identity" "aks" {
     resource_group_name = azurerm_resource_group.default.name
     location            = azurerm_resource_group.default.location
-    name                = "${var.Param.SysName_L}-UAMI01"
+    name                = "${var.Param["SysName_L"]}-UAMI01"
 }

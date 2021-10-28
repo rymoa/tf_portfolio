@@ -4,16 +4,16 @@ resource "azurerm_sql_server" "default" {
     resource_group_name                 = azurerm_resource_group.default.name
     location                            = azurerm_resource_group.default.location
     version                             = "12.0"
-    administrator_login                 = var.Secret.SQLAdmin
-    administrator_login_password        = var.Secret.SQLAdminPass
+    administrator_login                 = var.Secret["SQLAdmin"]
+    administrator_login_password        = var.Secret["SQLAdminPass"]
 }
 # Server Administrators
 resource "azurerm_sql_active_directory_administrator" "dafault" {
     server_name         = azurerm_sql_server.default.name
     resource_group_name = azurerm_resource_group.default.name
-    login               = var.SQL.AdminName_AAD
-    tenant_id           = var.SQL.TenantId
-    object_id           = var.SQL.ObjectId
+    login               = var.SQL["AdminName_AAD"]
+    tenant_id           = var.SQL["TenantId"]
+    object_id           = var.SQL["ObjectId"]
 }
 #Server Firewall Rules
 resource "azurerm_sql_firewall_rule" "default" {
@@ -36,7 +36,7 @@ resource "azurerm_mssql_server_security_alert_policy" "default" {
     resource_group_name = azurerm_resource_group.default.name
     state               = "Enabled"
     retention_days      = 0
-    email_addresses     = var.Alert.Sql_Security_Alert
+    email_addresses     = var.Alert["Sql_Security_Alert"]
 }
 
 #Azure SQL Database
